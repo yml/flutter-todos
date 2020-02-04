@@ -31,3 +31,21 @@ class TaskItem extends StatelessWidget {
     );
   }
 }
+
+class TaskSizedItem extends StatelessWidget {
+  final Task task;
+
+  TaskSizedItem({@required this.task});
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQueryWidth = MediaQuery.of(context).size.width;
+    final nbCol = mediaQueryWidth / 250;
+    if (nbCol > 2) {
+        return SizedBox(width: mediaQueryWidth / nbCol.floor(), child: TaskItem(task: task));
+    } else {
+      return TaskItem(task: task);
+    }
+  }
+}
+
