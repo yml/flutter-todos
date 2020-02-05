@@ -23,7 +23,7 @@ class CompletedTasksTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Consumer<TodosModel>(
-        builder: (context, todos, child) => TaskList(
+        builder: (context, todos, child) => TaskWrapGrid(
               tasks: todos.completedTasks,
             ),
       ),
@@ -37,7 +37,7 @@ class IncompleteTasksTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Consumer<TodosModel>(
-        builder: (context, todos, child) => TaskList(
+        builder: (context, todos, child) => TaskWrapGrid(
               tasks: todos.incompleteTasks,
             ),
       ),
