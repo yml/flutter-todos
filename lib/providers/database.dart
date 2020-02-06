@@ -19,7 +19,7 @@ class DatabaseProvider {
     //"ReactiveTodo.db is our database instance name
     String databasesPath = await getDatabasesPath();
     String dbPath = join(databasesPath, "flutter_todo.db");
-    await deleteDatabase(dbPath);
+    // await deleteDatabase(dbPath);
     var database = await openDatabase(dbPath,
         version: 1, onCreate: initDB, onUpgrade: onUpgrade);
 

@@ -9,9 +9,11 @@ class AllTasksTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Consumer<TodosModel>(
-        builder: (context, todos, child) => TaskWrapGrid(
+        builder: (context, todos, child) { 
+          return TaskWrapGrid(
               tasks: todos.allTasks,
-            ),
+            );
+        },
       ),
     );
   }

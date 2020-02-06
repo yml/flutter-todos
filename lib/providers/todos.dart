@@ -25,12 +25,15 @@ class TodosModel extends ChangeNotifier {
   _setupDatabase() async {
     DatabaseProvider dpProvider = DatabaseProvider();
     db = await dpProvider.database;
+    getAllTodos();
   }
 
   // final List<Task> _tasks = [];a
 
-  UnmodifiableListView<Task> get allTasks =>
-    UnmodifiableListView(_tasks);
+  UnmodifiableListView<Task> get allTasks {
+    return UnmodifiableListView(_tasks);
+  }
+
   UnmodifiableListView<Task> get incompleteTasks =>
       UnmodifiableListView(allTasks.where((todo) => !todo.completed));
   UnmodifiableListView<Task> get completedTasks =>
@@ -51,19 +54,19 @@ class TodosModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void addTodo(Task task) async {
     task.id = await db.insert("todos", task.toMap());
     print("addTodo : ${task.id}");
     getAllTodos();
   }
 
-  void toggleTodo(Task task) {
-    final taskIndex = _tasks.indexOf(task);
-    _tasks[taskIndex].toggleCompleted();
-    notifyListeners();
+  void toggleTodo(Task task) async {
+    task.toggleCompleted();
+    int id = await db
+        .update("todos", task.toMap(), where: "id = ?", whereArgs: [task.id]);
+    print("toggleTodo: $id");
+    getAllTodos();
   }
-
 
   void deleteTodo(Task task) async {
     await db.delete("todos", where: 'id = ?', whereArgs: [task.id]);
