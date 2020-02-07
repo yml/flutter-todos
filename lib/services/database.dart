@@ -9,7 +9,6 @@ final todoColumnTitle = "title";
 final todoColumnCompleted = "completed";
 
 class DatabaseProvider {
-  static final DatabaseProvider dbProvider = DatabaseProvider();
 
   Database _database;
 
