@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:todos/widgets/tasks_tab.dart';
-import 'package:todos/screens/addtask.dart';
-import 'package:todos/screens/settings.dart';
+import 'package:todos/screens/task_add_update.dart';
+import 'package:todos/screens/settings_management.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddTaskScreen(),
+                  builder: (context) => AddTodoScreen(),
                 ),
               );
             },

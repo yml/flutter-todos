@@ -3,16 +3,16 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todos/models/todos.dart';
-import 'package:todos/screens/addtask.dart';
+import 'package:todos/screens/task_add_update.dart';
 
-class TaskItem extends StatelessWidget {
+class TodoItem extends StatelessWidget {
   final Todo todo;
 
-  const TaskItem({Key key, this.todo}) : super(key: key);
+  const TodoItem({Key key, this.todo}) : super(key: key);
 
   MaterialPageRoute navigateToUpdateTaskScreen() {
     return MaterialPageRoute(
-      builder: (context) => UpdateTaskScreen(task: todo),
+      builder: (context) => UpdateTodoScreen(todo: todo),
       );
   }
   
@@ -55,10 +55,10 @@ class TaskItem extends StatelessWidget {
   }
 }
 
-class TaskSizedItem extends StatelessWidget {
-  final Todo task;
+class TodoSizedItem extends StatelessWidget {
+  final Todo todo;
 
-  TaskSizedItem({@required this.task});
+  TodoSizedItem({@required this.todo});
 
   @override
   Widget build(BuildContext context) {
@@ -66,28 +66,29 @@ class TaskSizedItem extends StatelessWidget {
     final nbCol = mediaQueryWidth / 250;
     if (nbCol > 2) {
       return SizedBox(
-          width: mediaQueryWidth / nbCol.floor(), child: TaskItem(todo:task));
+          width: mediaQueryWidth / nbCol.floor(), child: TodoItem(todo:todo));
     } else {
-      return TaskItem(todo: task);
+      return TodoItem(todo: todo);
     }
   }
 }
 
-class AddTaskWidget extends StatefulWidget {
-  final Todo task;
+class AddTodoWidget extends StatefulWidget {
+  final Todo todo;
+  final String labelBtn;
 
-  AddTaskWidget({@required this.task});
+  AddTodoWidget({@required this.todo, @required this.labelBtn});
 
   @override
-  _AddTaskWidgetState createState() => _AddTaskWidgetState();
+  _AddTodoWidgetState createState() => _AddTodoWidgetState();
 }
 
-class _AddTaskWidgetState extends State<AddTaskWidget> {
+class _AddTodoWidgetState extends State<AddTodoWidget> {
   final taskTitleController = TextEditingController();
 
   @override
   void initState(){
-    taskTitleController.text = widget.task.title;
+    taskTitleController.text = widget.todo.title;
     super.initState();
   }
 
@@ -97,15 +98,19 @@ class _AddTaskWidgetState extends State<AddTaskWidget> {
     super.dispose();
   }
 
-  void onAdd() {
+  void onSubmit() {
     final String textVal = taskTitleController.text;
-    final bool completed = widget.task.completed;
+    final bool completed = widget.todo.completed;
     if (textVal.isNotEmpty) {
-      final Todo todo = Todo(
-        title: textVal,
-        completed: completed,
-      );
-      Provider.of<TodosModel>(context, listen: false).addTodo(todo);
+      this.widget.todo.title = textVal;
+      this.widget.todo.completed = completed;
+
+      TodosModel todosModel = Provider.of<TodosModel>(context, listen: false);
+      if (this.widget.todo.id == null){
+        todosModel.addTodo(widget.todo);
+      }else{
+        todosModel.updateTodo(widget.todo);
+      }
       Navigator.pop(context);
     }
   }
@@ -122,17 +127,17 @@ class _AddTaskWidgetState extends State<AddTaskWidget> {
               children: <Widget>[
                 TextField(
                     controller: taskTitleController,
-                    onSubmitted: (String text) => onAdd()),
+                    onSubmitted: (String text) => onSubmit()),
                 CheckboxListTile(
-                  value: widget.task.completed,
+                  value: widget.todo.completed,
                   onChanged: (checked) => setState(() {
-                    widget.task.completed = checked;
+                    widget.todo.completed = checked;
                   }),
                   title: Text('Complete?'),
                 ),
                 RaisedButton(
-                  child: Text('Add'),
-                  onPressed: onAdd,
+                  child: Text(this.widget.labelBtn),
+                  onPressed: onSubmit,
                 ),
               ],
             ),

@@ -4,21 +4,21 @@ import 'package:todos/models/todos.dart';
 
 import 'package:todos/widgets/task_item.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTodoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Add Task'),
         ),
-        body: AddTaskWidget(task: Todo()));
+        body: AddTodoWidget(todo: Todo(), labelBtn: "Add"));
   }
 }
 
-class UpdateTaskScreen extends StatelessWidget {
-  final Todo task;
+class UpdateTodoScreen extends StatelessWidget {
+  final Todo todo;
 
-  UpdateTaskScreen({@required this.task});
+  UpdateTodoScreen({@required this.todo});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,9 @@ class UpdateTaskScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Update Task'),
         ),
-        body: AddTaskWidget(task: task));
+        body: AddTodoWidget(
+          todo: todo,
+          labelBtn: "Update",
+        ));
   }
 }

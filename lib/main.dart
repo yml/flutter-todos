@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:todos/screens/home.dart';
+import 'package:todos/screens/homepage.dart';
 import 'package:todos/models/todos.dart';
 import 'package:todos/models/settings.dart';
 import 'package:todos/services/database.dart';
@@ -14,36 +13,13 @@ void main() {
   runApp(TodosApp(dbProvider: dbProvider));
 }
 
-class TodosApp extends StatefulWidget {
+class TodosApp extends StatelessWidget {
   final DatabaseProvider dbProvider;
 
   TodosApp({this.dbProvider, Key key}) : super(key: key);
 
-  @override
-  _TodosAppState createState() => _TodosAppState();
-}
-
-class _TodosAppState extends State<TodosApp> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    closeDatabase();
-    super.dispose();
-  }
-
-  void closeDatabase() async {
-    Database db = await this.widget.dbProvider.database;
-    db.close();
-  }
-
-
   TodosModel getTodoModel() {
-    return TodosModel(dbProvider: this.widget.dbProvider);
+    return TodosModel(dbProvider: dbProvider);
   }
 
   @override
