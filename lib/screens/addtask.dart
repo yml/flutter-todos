@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:todos/models/tasks.dart';
+import 'package:todos/models/todos.dart';
+
 import 'package:todos/widgets/task_item.dart';
 
 class AddTaskScreen extends StatelessWidget {
@@ -10,12 +11,12 @@ class AddTaskScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Add Task'),
         ),
-        body: AddTaskWidget(task: Task()));
+        body: AddTaskWidget(task: Todo()));
   }
 }
 
 class UpdateTaskScreen extends StatelessWidget {
-  final Task task;
+  final Todo task;
 
   UpdateTaskScreen({@required this.task});
 

@@ -4,9 +4,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todos/screens/home.dart';
-import 'package:todos/providers/todos.dart';
-import 'package:todos/providers/settings.dart';
-import 'package:todos/providers/database.dart';
+import 'package:todos/models/todos.dart';
+import 'package:todos/models/settings.dart';
+import 'package:todos/services/database.dart';
 
 void main() {
   DatabaseProvider dbProvider = DatabaseProvider();

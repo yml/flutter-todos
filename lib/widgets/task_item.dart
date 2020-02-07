@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-import 'package:todos/models/tasks.dart';
-import 'package:todos/providers/todos.dart';
+import 'package:todos/models/todos.dart';
 import 'package:todos/screens/addtask.dart';
 
 class TaskItem extends StatelessWidget {
-  final Task task;
+  final Todo todo;
 
-  const TaskItem({Key key, this.task}) : super(key: key);
+  const TaskItem({Key key, this.todo}) : super(key: key);
 
   MaterialPageRoute navigateToUpdateTaskScreen() {
     return MaterialPageRoute(
-      builder: (context) => UpdateTaskScreen(task: task),
+      builder: (context) => UpdateTaskScreen(task: todo),
       );
   }
   
@@ -21,13 +20,13 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Checkbox(
-        value: task.completed,
+        value: todo.completed,
         onChanged: (bool checked) {
           Provider.of<TodosModel>(context, listen: false)
-              .toggleTodo(task);
+              .toggleTodo(todo);
         },
       ),
-      title: Text(task.title),
+      title: Text(todo.title),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -47,7 +46,7 @@ class TaskItem extends StatelessWidget {
             ),
             onPressed: () {
               Provider.of<TodosModel>(context, listen: false)
-                  .deleteTodo(task);
+                  .deleteTodo(todo);
             },
           ),
         ],
@@ -57,7 +56,7 @@ class TaskItem extends StatelessWidget {
 }
 
 class TaskSizedItem extends StatelessWidget {
-  final Task task;
+  final Todo task;
 
   TaskSizedItem({@required this.task});
 
@@ -67,15 +66,15 @@ class TaskSizedItem extends StatelessWidget {
     final nbCol = mediaQueryWidth / 250;
     if (nbCol > 2) {
       return SizedBox(
-          width: mediaQueryWidth / nbCol.floor(), child: TaskItem(task:task));
+          width: mediaQueryWidth / nbCol.floor(), child: TaskItem(todo:task));
     } else {
-      return TaskItem(task: task);
+      return TaskItem(todo: task);
     }
   }
 }
 
 class AddTaskWidget extends StatefulWidget {
-  final Task task;
+  final Todo task;
 
   AddTaskWidget({@required this.task});
 
@@ -102,7 +101,7 @@ class _AddTaskWidgetState extends State<AddTaskWidget> {
     final String textVal = taskTitleController.text;
     final bool completed = widget.task.completed;
     if (textVal.isNotEmpty) {
-      final Task todo = Task(
+      final Todo todo = Todo(
         title: textVal,
         completed: completed,
       );

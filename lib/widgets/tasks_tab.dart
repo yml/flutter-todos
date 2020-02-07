@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:todos/providers/todos.dart';
+import 'package:todos/models/todos.dart';
 import 'package:todos/widgets/task_list.dart';
 
 class AllTasksTab extends StatelessWidget {
