@@ -1,24 +1,17 @@
 import 'dart:collection';
-import 'package:sqflite/sqflite.dart';
 
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import "package:todos/models/tasks.dart";
-import "package:todos/providers/database.dart";
+import 'package:todos/providers/database.dart';
 
 class TodosModel extends ChangeNotifier {
+  final DatabaseProvider dbProvider;
   Database db;
-
-  @override
-  void dispose() {
-    if (db != null) {
-      db.close();
-    }
-    super.dispose();
-  }
 
   List<Task> _tasks = [];
 
-  TodosModel() {
+  TodosModel({this.dbProvider}) {
     _setupDatabase();
   }
 
@@ -40,14 +33,14 @@ class TodosModel extends ChangeNotifier {
       UnmodifiableListView(allTasks.where((todo) => todo.completed));
 
   void getAllTodos() async {
-    final List<Map<String, dynamic>> maps = await db.query('todos');
+    final List<Map<String, dynamic>> maps = await db.query(todoTABLE);
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     if (maps != null) {
       _tasks = List.generate(maps.length, (i) {
         return Task(
-          id: maps[i]['id'],
-          title: maps[i]['title'],
-          completed: (maps[i]['completed'] == 0) ? false : true,
+          id: maps[i][todoColumnId],
+          title: maps[i][todoColumnTitle],
+          completed: (maps[i][todoColumnCompleted] == 0) ? false : true,
         );
       });
     }
@@ -55,7 +48,7 @@ class TodosModel extends ChangeNotifier {
   }
 
   void addTodo(Task task) async {
-    task.id = await db.insert("todos", task.toMap());
+    task.id = await db.insert(todoTABLE, task.toMap());
     print("addTodo : ${task.id}");
     getAllTodos();
   }
@@ -63,13 +56,13 @@ class TodosModel extends ChangeNotifier {
   void toggleTodo(Task task) async {
     task.toggleCompleted();
     int id = await db
-        .update("todos", task.toMap(), where: "id = ?", whereArgs: [task.id]);
+        .update(todoTABLE, task.toMap(), where: "$todoColumnId = ?", whereArgs: [task.id]);
     print("toggleTodo: $id");
     getAllTodos();
   }
 
   void deleteTodo(Task task) async {
-    await db.delete("todos", where: 'id = ?', whereArgs: [task.id]);
+    await db.delete(todoTABLE, where: '$todoColumnId = ?', whereArgs: [task.id]);
     getAllTodos();
   }
 }

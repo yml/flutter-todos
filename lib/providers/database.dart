@@ -3,7 +3,11 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-final todoTABLE = 'Todos';
+final todoTABLE = 'todos';
+final todoColumnId = 'id';
+final todoColumnTitle = "title";
+final todoColumnCompleted = "completed";
+
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
 
@@ -34,12 +38,12 @@ class DatabaseProvider {
 
   void initDB(Database database, int version) async {
     await database.execute("CREATE TABLE $todoTABLE ("
-        "id INTEGER PRIMARY KEY, "
-        "title TEXT, "
+        "$todoColumnId INTEGER PRIMARY KEY, "
+        "$todoColumnTitle TEXT, "
         /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
         and 1 is true*/
-        "completed INTEGER "
+        "$todoColumnCompleted INTEGER "
         ")");
     print("initDB");
   }

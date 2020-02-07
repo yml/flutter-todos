@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:todos/providers/settings.dart';
 
-class SettingsScreen extends StatefulWidget {
-  @override
-  _SettingsScreenState createState() => _SettingsScreenState();
-}
+class SettingsScreen extends StatelessWidget {
 
-class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

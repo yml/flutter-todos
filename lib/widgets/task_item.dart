@@ -6,20 +6,14 @@ import 'package:todos/models/tasks.dart';
 import 'package:todos/providers/todos.dart';
 import 'package:todos/screens/addtask.dart';
 
-class TaskItem extends StatefulWidget {
+class TaskItem extends StatelessWidget {
   final Task task;
 
   const TaskItem({Key key, this.task}) : super(key: key);
 
-  @override
-  _TaskItemState createState() => _TaskItemState();
-}
-
-class _TaskItemState extends State<TaskItem> {
-
   MaterialPageRoute navigateToUpdateTaskScreen() {
     return MaterialPageRoute(
-      builder: (context) => UpdateTaskScreen(task: widget.task),
+      builder: (context) => UpdateTaskScreen(task: task),
       );
   }
   
@@ -27,13 +21,13 @@ class _TaskItemState extends State<TaskItem> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Checkbox(
-        value: widget.task.completed,
+        value: task.completed,
         onChanged: (bool checked) {
           Provider.of<TodosModel>(context, listen: false)
-              .toggleTodo(widget.task);
+              .toggleTodo(task);
         },
       ),
-      title: Text(widget.task.title),
+      title: Text(task.title),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -53,7 +47,7 @@ class _TaskItemState extends State<TaskItem> {
             ),
             onPressed: () {
               Provider.of<TodosModel>(context, listen: false)
-                  .deleteTodo(widget.task);
+                  .deleteTodo(task);
             },
           ),
         ],
